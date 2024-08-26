@@ -1,0 +1,158 @@
+#include <Wire.h>
+#include <Adafruit_MPU6050.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_SSD1306.h>
+
+// OLED display width and height, in pixels
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+
+// Create an MPU6050 object
+Adafruit_MPU6050 mpu;
+
+// Create an SSD1306 display object
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+void setup() {
+  // Initialize serial communication
+  Serial.begin(115200);
+
+  // Initialize the MPU6050 sensor
+  if (!mpu.begin()) {
+    Serial.println("Failed to find MPU6050 chip");
+    while (1) {
+      delay(10);
+    }
+  }
+  mpu.setAccelerometerRange(MPU6050_RANGE_2_G);
+  mpu.setGyroRange(MPU6050_RANGE_250_DEG);
+  mpu.setFilterBandwidth(MPU6050_BAND_5_HZ);
+
+  // Initialize the OLED display
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println(F("SSD1306 allocation failed"));
+    for (;;);
+  }
+  display.display();
+  delay(2000); // Pause for 2 seconds
+  display.clearDisplay();
+}
+
+void loop() {
+  // Get new sensor events with the readings
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+
+  // Clear the display
+  display.clearDisplay();
+
+  // Display accelerometer values
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(0, 0);
+  display.println("Accel:");
+  display.print("X: "); display.println(a.acceleration.x);
+  display.print("Y: "); display.println(a.acceleration.y);
+  display.print("Z: "); display.println(a.acceleration.z);
+
+  // Display gyroscope values
+  display.setCursor(0, 32);
+  display.println("Gyro:");
+  display.print("X: "); display.println(g.gyro.x);
+  display.print("Y: "); display.println(g.gyro.y);
+  display.print("Z: "); display.println(g.gyro.z);
+
+  // Update the display with the new data
+  display.display();
+
+  // Print values to Serial Monitor for debugging
+  Serial.print("Accel X: "); Serial.print(a.acceleration.x);
+  Serial.print(", Y: "); Serial.print(a.acceleration.y);
+  Serial.print(", Z: "); Serial.println(a.acceleration.z);
+
+  Serial.print("Gyro X: "); Serial.print(g.gyro.x);
+  Serial.print(", Y: "); Serial.print(g.gyro.y);
+  Serial.print(", Z: "); Serial.println(g.gyro.z);
+
+  // Add a small delay to stabilize readings
+  delay(200);
+}
+#include <Wire.h>
+#include <Adafruit_MPU6050.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_SSD1306.h>
+
+// OLED display width and height, in pixels
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+
+// Create an MPU6050 object
+Adafruit_MPU6050 mpu;
+
+// Create an SSD1306 display object
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+void setup() {
+  // Initialize serial communication
+  Serial.begin(115200);
+
+  // Initialize the MPU6050 sensor
+  if (!mpu.begin()) {
+    Serial.println("Failed to find MPU6050 chip");
+    while (1) {
+      delay(10);
+    }
+  }
+  mpu.setAccelerometerRange(MPU6050_RANGE_2_G);
+  mpu.setGyroRange(MPU6050_RANGE_250_DEG);
+  mpu.setFilterBandwidth(MPU6050_BAND_5_HZ);
+
+  // Initialize the OLED display
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println(F("SSD1306 allocation failed"));
+    for (;;);
+  }
+  display.display();
+  delay(2000); // Pause for 2 seconds
+  display.clearDisplay();
+}
+
+void loop() {
+  // Get new sensor events with the readings
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+
+  // Clear the display
+  display.clearDisplay();
+
+  // Display accelerometer values
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(0, 0);
+  display.println("Accel:");
+  display.print("X: "); display.println(a.acceleration.x);
+  display.print("Y: "); display.println(a.acceleration.y);
+  display.print("Z: "); display.println(a.acceleration.z);
+
+  // Display gyroscope values
+  display.setCursor(0, 32);
+  display.println("Gyro:");
+  display.print("X: "); display.println(g.gyro.x);
+  display.print("Y: "); display.println(g.gyro.y);
+  display.print("Z: "); display.println(g.gyro.z);
+
+  // Update the display with the new data
+  display.display();
+
+  // Print values to Serial Monitor for debugging
+  Serial.print("Accel X: "); Serial.print(a.acceleration.x);
+  Serial.print(", Y: "); Serial.print(a.acceleration.y);
+  Serial.print(", Z: "); Serial.println(a.acceleration.z);
+
+  Serial.print("Gyro X: "); Serial.print(g.gyro.x);
+  Serial.print(", Y: "); Serial.print(g.gyro.y);
+  Serial.print(", Z: "); Serial.println(g.gyro.z);
+
+  // Add a small delay to stabilize readings
+  delay(200);
+}
